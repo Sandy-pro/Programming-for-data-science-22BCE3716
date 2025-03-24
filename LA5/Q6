@@ -1,1 +1,29 @@
-x
+#Sandeep Dhivakar 22BCE3716
+# Q6 - TIDYR in Action: Educational Statistics
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(WDI)
+
+# 1. Compare Each Country's Educational Expenditure in 1990 and 2014
+gov_edu_exp <- WDI(indicator = "SE.XPD.TOTL.GD.ZS", start = 1990, end = 2014, extra = TRUE)
+gov_edu_exp <- gov_edu_exp %>% filter(year %in% c(1990, 2014))
+
+# Visualization
+ggplot(gov_edu_exp, aes(x = year, y = `SE.XPD.TOTL.GD.ZS`, color = country)) +
+  geom_line() +
+  labs(title = "Government Expenditure on Education (% of GDP)", x = "Year", y = "% of GDP")
+
+
+# 2. Reshape Educational Data
+spain_edu_exp <- gov_edu_exp %>% filter(country == "Spain")
+spain_edu_exp <- spain_edu_exp %>% mutate(year = as.numeric(gsub("X", "", as.character(year))))
+
+# 3. Compare Two Indicators: Literacy Rate and Unemployment Rate
+edu_data_2014 <- WDI(indicator = c("SE.ADT.LITR.FE.ZS", "SL.UEM.TOTL.FE.ZS"), start = 2014, end = 2014)
+colnames(edu_data_2014) <- c("country", "year", "Literacy_Rate", "Unemployment_Rate")
+
+# Scatter plot
+ggplot(edu_data_2014, aes(x = Literacy_Rate, y = Unemployment_Rate)) +
+  geom_point() +
+  labs(title = "Female Literacy vs Unemployment in 2014", x = "Literacy Rate", y = "Unemployment Rate")
