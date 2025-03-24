@@ -1,0 +1,13 @@
+# Q1 - Flight Data Analysis Using dplyr and the nycflights13 Dataset
+library(dplyr)
+library(nycflights13)
+#Sandeep Dhivakar 22BCE3716
+# 1. Airline with most delayed departures
+flights %>% filter(dep_delay > 0) %>% count(carrier, sort = TRUE)
+#Sandeep Dhivakar 22BCE3716
+# 2. Airport with most early arrivals
+flights %>% group_by(dest) %>% summarize(avg_arr_delay = mean(arr_delay, na.rm = TRUE)) %>% arrange(avg_arr_delay)
+#Sandeep Dhivakar 22BCE3716
+# 3. Month with longest delays
+flights %>% group_by(month) %>% summarize(avg_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% arrange(desc(avg_dep_delay))
+
