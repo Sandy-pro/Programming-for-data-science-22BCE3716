@@ -1,0 +1,54 @@
+# i) Load dataset
+diabetes_data <- read.csv("diabetes.csv")
+#Sandeep Dhivakar 22BCE3716
+# ii) Display first 10 rows
+head(diabetes_data, 10)
+#Sandeep Dhivakar 22BCE3716
+# iii) Summary statistics
+summary(diabetes_data)
+#Sandeep Dhivakar 22BCE3716
+# iv) Check dataset structure
+str(diabetes_data)
+#Sandeep Dhivakar 22BCE3716
+# v) Identify missing values
+colSums(is.na(diabetes_data))
+#Sandeep Dhivakar 22BCE3716
+# vi) Replace missing values with column median
+for (col in names(diabetes_data)) {
+  diabetes_data[[col]][is.na(diabetes_data[[col]])] <- median(diabetes_data[[col]], na.rm = TRUE)
+}
+#Sandeep Dhivakar 22BCE3716
+# vii) Histogram of Glucose levels
+ggplot(diabetes_data, aes(x = Glucose)) +
+  geom_histogram(binwidth = 5, fill = "blue", alpha = 0.7) +
+  labs(title = "Distribution of Glucose Levels")
+#Sandeep Dhivakar 22BCE3716
+# viii) Boxplot of BMI by Outcome
+ggplot(diabetes_data, aes(x = factor(Outcome), y = BMI)) +
+  geom_boxplot() +
+  labs(title = "BMI Distribution by Outcome")
+#Sandeep Dhivakar 22BCE3716
+# ix) Scatter plot of Insulin vs. Glucose
+ggplot(diabetes_data, aes(x = Glucose, y = Insulin, color = factor(Outcome))) +
+  geom_point() +
+  labs(title = "Insulin vs Glucose by Outcome")
+#Sandeep Dhivakar 22BCE3716
+# x) Histogram of Age
+ggplot(diabetes_data, aes(x = Age)) +
+  geom_histogram(binwidth = 5, fill = "green", alpha = 0.7) +
+  labs(title = "Age Distribution")
+#Sandeep Dhivakar 22BCE3716
+# xi) Boxplot of Age by Outcome
+ggplot(diabetes_data, aes(x = factor(Outcome), y = Age)) +
+  geom_boxplot() +
+  labs(title = "Age Distribution by Outcome")
+#Sandeep Dhivakar 22BCE3716
+# xii) Correlation matrix
+cor_matrix <- cor(diabetes_data[sapply(diabetes_data, is.numeric)])
+print(cor_matrix)
+#Sandeep Dhivakar 22BCE3716
+# xiii) Identify highest positive correlation
+cor_values <- as.data.frame(as.table(cor_matrix))
+cor_values <- cor_values[cor_values$Var1 != cor_values$Var2, ]
+highest_cor <- cor_values[which.max(cor_values$Freq), ]
+print(highest_cor)
