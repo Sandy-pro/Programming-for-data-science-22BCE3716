@@ -1,1 +1,35 @@
-x
+# Q4 - U.S. Presidential Elections Analysis
+library(pscl)
+data(presidentialElections)
+#Sandeep Dhivakar 22BCE3716
+# 1. Select specific columns
+presidentialElections %>% select(year, demVote)
+#Sandeep Dhivakar 22BCE3716
+# 2. Filter rows for 2008 Colorado
+presidentialElections %>% filter(year == 2008, state == "Colorado")
+#Sandeep Dhivakar 22BCE3716
+# 3. Mutate columns
+presidentialElections <- presidentialElections %>% mutate(
+  other_parties_vote = 100 - demVote,
+  abs_vote_difference = abs(demVote - other_parties_vote)
+)
+#Sandeep Dhivakar 22BCE3716
+# 4. Arrange rows
+presidentialElections %>% arrange(desc(year), desc(demVote))
+#Sandeep Dhivakar 22BCE3716
+# 5. Summary statistics
+presidentialElections %>% summarize(
+  mean_dem_vote = mean(demVote),
+  mean_other_parties_vote = mean(100 - demVote)
+)
+#Sandeep Dhivakar 22BCE3716
+# 6. Custom function for landslide calculation
+furthest_from_50 <- function(v) {
+  return(max(abs(v - 50)))
+}
+#Sandeep Dhivakar 22BCE3716
+# Calculate biggest landslide
+presidentialElections %>% summarize(biggest_landslide = furthest_from_50(demVote))
+#Sandeep Dhivakar 22BCE3716
+# 7. Find state with highest Democratic vote in 2008
+presidentialElections %>% filter(year == 2008) %>% arrange(desc(demVote)) %>% head(1)
