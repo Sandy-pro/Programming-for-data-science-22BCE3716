@@ -1,0 +1,15 @@
+# Q2 - Vehicle Performance Analysis Using dplyr and the mtcars Dataset
+library(dplyr)
+data(mtcars)
+#Sandeep Dhivakar 22BCE3716
+# 1. Car model with highest horsepower
+highest_hp_car <- mtcars %>% arrange(desc(hp)) %>% head(1)
+print(highest_hp_car)
+#Sandeep Dhivakar 22BCE3716
+# 2. Car model with best fuel efficiency
+best_mpg_car <- mtcars %>% arrange(desc(mpg)) %>% head(1)
+print(best_mpg_car)
+#Sandeep Dhivakar 22BCE3716
+# 3. Cylinder category with highest avg weight
+cyl_wt_avg <- mtcars %>% group_by(cyl) %>% summarize(avg_wt = mean(wt)) %>% arrange(desc(avg_wt))
+print(cyl_wt_avg)
