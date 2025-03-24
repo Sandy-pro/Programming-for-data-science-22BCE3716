@@ -1,1 +1,40 @@
-x
+# Load necessary library
+library(dplyr)
+#Sandeep Dhivakar 22BCE3716
+# Create data frame
+df <- data.frame(
+  ID = c(1, 2, 3, 4, 5),
+  Name = c("Alice", "Bob", "Carol", "David", "Eve"),
+  Age = c(23, 30, 27, 35, 29),
+  Gender = c("F", "M", "F", "M", "F"),
+  Score = c(85, 90, 78, 88, 91)
+)
+#Sandeep Dhivakar 22BCE3716
+# i) Display first few rows
+head(df)
+#Sandeep Dhivakar 22BCE3716
+# ii) Extract Score column
+df$Score
+#Sandeep Dhivakar 22BCE3716
+# iii) Filter rows where Score > 85
+df %>% filter(Score > 85)
+#Sandeep Dhivakar 22BCE3716
+# iv) Add 'Passed' column
+df <- df %>% mutate(Passed = Score >= 85)
+#Sandeep Dhivakar 22BCE3716
+# v) Summary statistics for Age and Score
+summary(df[, c("Age", "Score")])
+#Sandeep Dhivakar 22BCE3716
+# vi) Update Name where ID = 2
+df <- df %>% mutate(Name = ifelse(ID == 2, "Robert", Name))
+#Sandeep Dhivakar 22BCE3716
+# vii) Sort by Score in descending order
+df <- df %>% arrange(desc(Score))
+print(df)
+#Sandeep Dhivakar 22BCE3716
+# viii) Replace missing values in Score with mean
+df$Score[is.na(df$Score)] <- mean(df$Score, na.rm = TRUE)
+#Sandeep Dhivakar 22BCE3716
+# ix) Extract Name and Score where Age < 30
+df %>% filter(Age < 30) %>% select(Name, Score)
+
