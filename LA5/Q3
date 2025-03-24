@@ -1,35 +1,17 @@
-# Q5 - Global Development Data Analysis
-data(gapminder)
-library(gapminder)
+# Q3 - Diamond Quality Analysis Using dplyr and the diamonds Dataset
+library(ggplot2)
+library(dplyr)
+data(diamonds)
 #Sandeep Dhivakar 22BCE3716
-# 1. Select specific columns
-gapminder %>% select(country, year, gdpPercap)
+# 1. Cut with most diamonds over $5000
+cut_high_price <- diamonds %>% filter(price > 5000) %>% count(cut, sort = TRUE)
+print(cut_high_price)
 #Sandeep Dhivakar 22BCE3716
-# 2. Filter for Asia in 2007
-gapminder %>% filter(year == 2007, continent == "Asia")
+# 2. Clarity with lightest diamonds
+clarity_lightest <- diamonds %>% group_by(clarity) %>% summarize(avg_carat = mean(carat)) %>% arrange(avg_carat)
+print(clarity_lightest)
 #Sandeep Dhivakar 22BCE3716
-# 3. Mutate GDP calculations
-gapminder <- gapminder %>% mutate(
-  gdp_million = gdpPercap * pop / 1e6,
-  gdp_growth = (gdpPercap - lag(gdpPercap)) / lag(gdpPercap) * 100
-)
-#Sandeep Dhivakar 22BCE3716
-# 4. Arrange by GDP per capita
-gapminder %>% arrange(desc(gdpPercap), country)
-#Sandeep Dhivakar 22BCE3716
-# 5. Summary statistics
-gapminder %>% summarize(
-  mean_gdpPercap = mean(gdpPercap),
-  total_pop = sum(pop)
-)
-#Sandeep Dhivakar 22BCE3716
-# 6. Rank GDP function
-gdp_rank <- function(gdp) {
-  return(rank(-gdp))
-}
-#Sandeep Dhivakar 22BCE3716
-gapminder %>% mutate(gdp_rank = gdp_rank(gdpPercap))
-#Sandeep Dhivakar 22BCE3716
-# 7. Find continent with highest avg GDP per capita in 2007
-gapminder %>% filter(year == 2007) %>% group_by(continent) %>% summarize(avg_gdp = mean(gdpPercap)) %>% arrange(desc(avg_gdp)
-
+# 3. Hypothetical highest price month (mock example)
+diamonds$month <- sample(1:12, nrow(diamonds), replace = TRUE)
+highest_avg_price_month <- diamonds %>% group_by(month) %>% summarize(avg_price = mean(price)) %>% arrange(desc(avg_price))
+print(highest_avg_price_month)
